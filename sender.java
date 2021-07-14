@@ -12,12 +12,13 @@ import java.util.concurrent.TimeoutException;
 public class sender {
     public static int windowsize = 1;
     public static int timestamp = 0;
+    public static int timeinteval ;
     public static int baseseqnumber = 0;
     public static int nextSeqNum = 0;
     static String emulatoraddress;
     static int emulatorport;
     static final int WINDOW_N = 10;
-    static int string_length = 200;
+    static int string_length = 500;
     public static int receiveport;
     static String filename;
     static ArrayList<packet> send_string_all = new ArrayList<>();
@@ -27,15 +28,16 @@ public class sender {
     public static Timer timer = new Timer();
 
     public static void main(String[] args) {
-        if (args.length != 4) {
-            System.out.println("there should be 4 cml argument input");
+        if (args.length != 5) {
+            System.out.println("there should be 5 cml argument input");
             return;
         }
         // import cml arguments
         emulatoraddress = args[0];
         emulatorport = Integer.parseInt(args[1]);
         receiveport = Integer.parseInt(args[2]);
-        filename = args[3];
+        timeinteval = Integer.parseInt(args[3]);
+        filename = args[4];
         // Start thread to receive acks from emulator
         ACKReceiver ackreceiver = new ACKReceiver();
         ackreceiver.start();
@@ -73,7 +75,7 @@ public class sender {
                 if (nextSeqNum < baseseqnumber + windowsize) {
                     udp_send(send_string_all.get(nextSeqNum));
                     if (baseseqnumber == nextSeqNum) {
-                        timer.schedule(new Timeout(), 100);//start count on timeout
+                        timer.schedule(new Timeout(), timeinteval);//start count on timeout
                     }
                     nextSeqNum++;
                 }
@@ -113,7 +115,7 @@ public class sender {
             }catch (IOException e){
                 e.printStackTrace();
             }
-            for (int i = baseseqnumber; i < baseseqnumber + windowsize; i++) {///retransmit all seq from window
+            for (int i = baseseqnumber; i < nextSeqNum; i++) {///retransmit all seq from window
                 udp_send(send_string_all.get(i));
             }
         }

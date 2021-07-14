@@ -25,8 +25,8 @@ java receiver 127.0.1.1 9993 9994 file2
  ```
 ### Running the sender
 ```
-java sender <emulator hostname> <emulator receiving UDP port from sender> <sender UDP port> <input file>
-java sender 127.0.1.1 9991 9992 file1
+java sender <emulator hostname> <emulator receiving UDP port from sender> <sender UDP port> <time inteval> <input file>
+java sender 127.0.1.1 9991 9992 100 file1
  ```
 ## Editor used in java
 The project was coded in Intellij IDEA.
