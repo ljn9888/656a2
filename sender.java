@@ -18,7 +18,7 @@ public class sender {
     static String emulatoraddress;
     static int emulatorport;
     static final int WINDOW_N = 10;
-    static int string_length = 75;
+    static int string_length = 300;
     public static int receiveport;
     static String filename;
     static ArrayList<packet> send_string_all = new ArrayList<>();

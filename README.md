@@ -1,8 +1,8 @@
-# MSCI 720 Assignment 2
+# CS 656 Assignment 2
 ## name: Jianing Li
 #### WatIAM: j2534li
 #### Student number: 20899171
-This project contains both the Document IndexEngine and the BooleanAND files.
+This project contains both the sender, emulator and receiver files.
 ```
     ─ sender.java
         ─ ACKReceiver.java
@@ -31,10 +31,10 @@ java sender 127.0.1.1 9991 9992 100 file1
 ## Editor used in java
 The project was coded in Intellij IDEA.
 ### For the sender
-The Server artifacts requires sender.java, ACKReceiver.java to build
+The Server artifacts requires sender.java, ACKReceiver.java and packet.java to build
 ### For the receiver
 The Client artifacts requires receiver.java to build
 ### For the emulator
-The Client artifacts requires network_emulator.py to build
+The Client artifacts requires network_emulator.py and packet.java to build
 
 Tested on ubuntu1804-002 (sender), ubuntu1804-004 (receiver), ubuntu1804-008 (emulator)
