@@ -18,7 +18,7 @@ public class sender {
     static String emulatoraddress;
     static int emulatorport;
     static final int WINDOW_N = 10;
-    static int string_length = 300;
+    static int string_length = 500;
     public static int receiveport;
     static String filename;
     static ArrayList<packet> send_string_all = new ArrayList<>();
@@ -64,7 +64,8 @@ public class sender {
             /////////////////////////////recycling for send packet//////////////////////
             while (true) {
                 if (nextSeqNum == total_packets_num) {
-                    Thread.sleep(2000);;
+                    Thread.sleep(3000);
+                    System.out.println("wait for several time before sending eot to prevent delay, now everything ends");
                     packet eot = packet.EOT(nextSeqNum + 1);
                     sender.seqnumlog.write("t=" + timestamp++ + " EOT");
                     sender.acklog.write("t=" + timestamp++ + " EOT");
@@ -72,7 +73,7 @@ public class sender {
                     sender.seqnumlog.close();
                     sender.acklog.close();
                     break;}        //end the loop when all packets send to the receiver
-                if (nextSeqNum < baseseqnumber + windowsize) {
+                if (nextSeqNum < baseseqnumber + windowsize) {//checks to see if the window is full
                     udp_send(send_string_all.get(nextSeqNum));
                     if (baseseqnumber == nextSeqNum) {
                         timer.schedule(new Timeout(), timeinteval);//start count on timeout
@@ -102,7 +103,9 @@ public class sender {
             }catch (IOException e){
                 e.printStackTrace();
             }
-            udp_send(send_string_all.get(baseseqnumber));
+            System.out.println("timeout sending: " +baseseqnumber);
+            try{
+            udp_send(send_string_all.get(baseseqnumber));} catch(IndexOutOfBoundsException e){System.out.print("finished"); return;}
         }
     }
 

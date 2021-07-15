@@ -81,18 +81,18 @@ public class receiver {
                 ack0 = packet.ACK(expectSeqnumber - 1);
               System.out.println(receivebuffer);
               receivebuffer.clear();
-              System.out.println(" heheAck:" + (expectSeqnumber - 1));
+              System.out.println(" jumpAck:" + (expectSeqnumber - 1));
               udt_send(ack0);}
           }
           /////////////////////////////////////////clear buffer////////////////
-        } else if (expectSeqnumber != 0) { // if we receive an out of order packet that's not the first
-          packet ack = packet.ACK(seqnumber);
+        } else //if (expectSeqnumber != 0) { // if we receive an out of order packet that's not the first
+          {packet ack = packet.ACK(seqnumber);
           udt_send(ack);
           System.out.println(" wrongAck:" + seqnumber);
-          if(expectSeqnumber<22 && seqnumber > expectSeqnumber && seqnumber < expectSeqnumber + 10) {
+          if(expectSeqnumber<22 && seqnumber > expectSeqnumber && seqnumber < expectSeqnumber + 11) {
             receivebuffer.put(seqnumber, packet0);
           }
-          if(expectSeqnumber>=22 && (seqnumber > expectSeqnumber || seqnumber <= expectSeqnumber - 21)) {
+          if(expectSeqnumber>=22 && (seqnumber > expectSeqnumber || seqnumber < expectSeqnumber - 21)) {
             receivebuffer.put(seqnumber, packet0);
           }
         }
@@ -103,7 +103,6 @@ public class receiver {
     }
     packet eot = packet.EOT(seqnumber);
     udt_send(eot);
-    System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
   }
 
 
