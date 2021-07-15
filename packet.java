@@ -28,7 +28,7 @@ public class packet  {
 		this.type = type;
 		this.seqnumber = seqnumber % SEQ_NUMBER_MODULO;
 		this.data = data;
-		length = data.length();
+		this.length = data.length();
 		if (length > MAX_LENGTH)
 			throw new Exception("data too large (max 500 chars)");	////no more than 500
 

@@ -3,16 +3,16 @@
 #### WatIAM: j2534li
 #### Student number: 20899171
 This project contains both the Document IndexEngine and the BooleanAND files.
- ```
+```
     ─ sender.java
         ─ ACKReceiver.java
     ─ receiver.java   
     ─ network-emulator.py      
- ```
+```
  ## We should make to build the program firstly
- ```
+```
  make
- ```
+```
  ### Running the network_emulator
 ```
 python3 network_emulator.py <emulator receiving UDP port from sender> <receiver hostname> <receiver UDP port> <emulator receiving UDP port> <sender hostname> <sender UDP port> <max delay in ms> <packet discard probability> <verbose-mode>

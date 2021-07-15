@@ -18,7 +18,7 @@ public class sender {
     static String emulatoraddress;
     static int emulatorport;
     static final int WINDOW_N = 10;
-    static int string_length = 500;
+    static int string_length = 75;
     public static int receiveport;
     static String filename;
     static ArrayList<packet> send_string_all = new ArrayList<>();
@@ -60,14 +60,14 @@ public class sender {
             seqnumlog = new FileWriter("seqnum.log");
             acklog = new FileWriter("ack.log");
             Nlog = new FileWriter("N.log");
-
+            Nlog.write("t=" + timestamp++ + " " + windowsize + "\r\n");
             /////////////////////////////recycling for send packet//////////////////////
             while (true) {
                 if (nextSeqNum == total_packets_num) {
-                    Thread.sleep(2000);
+                    Thread.sleep(2000);;
                     packet eot = packet.EOT(nextSeqNum + 1);
-                    sender.seqnumlog.write("EOT");
-                    sender.acklog.write("EOT");
+                    sender.seqnumlog.write("t=" + timestamp++ + " EOT");
+                    sender.acklog.write("t=" + timestamp++ + " EOT");
                     sender.udp_send(eot);
                     sender.seqnumlog.close();
                     sender.acklog.close();
@@ -79,22 +79,9 @@ public class sender {
                     }
                     nextSeqNum++;
                 }
-                else{
-                    if(windowsize < WINDOW_N/2){
-                        windowsize =windowsize*2;
-                        Nlog.write("t=" + timestamp++ + " " + windowsize + "\r\n");
-                        Nlog.flush();
-                    }
-                    else if(windowsize < WINDOW_N) {
-                        windowsize++;
-                        Nlog.write("t=" + timestamp++ + " " + windowsize + "\r\n");
-                        Nlog.flush();
-                    }
-                }
                 System.out.print("nextSeqNum: " + nextSeqNum);
                 System.out.print("  base: " + baseseqnumber);
                 System.out.println("  total_packets_num: " + total_packets_num);
-
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -107,7 +94,7 @@ public class sender {
         public void run()  {
             System.out.println("Timeout here"); //gengrate timeout in an different thread
             try{
-            timer.schedule(new Timeout(), 100);}catch (Exception e) {System.out.println("timer already cancelled, its okay");}
+                timer.schedule(new Timeout(), 100);}catch (Exception e) {System.out.println("timer already cancelled, its okay");}
             try{
                 windowsize = 1;
                 Nlog.write("t=" + timestamp + " " + windowsize + "\r\n");
@@ -115,9 +102,7 @@ public class sender {
             }catch (IOException e){
                 e.printStackTrace();
             }
-            for (int i = baseseqnumber; i < nextSeqNum; i++) {///retransmit all seq from window
-                udp_send(send_string_all.get(i));
-            }
+            udp_send(send_string_all.get(baseseqnumber));
         }
     }
 
@@ -125,13 +110,13 @@ public class sender {
         byte[] sendBuffer;
         sendBuffer = packet0.getUDPdata();
         try {
-            // log sequence numbers in seqnum.log
+            // input sequence numbers in seqnum.log
             if (packet0.getType() != 2) {
                 seqnumlog.write("t=" + timestamp++ + " " + packet0.getSeqNumber() + "\r\n");
                 seqnumlog.flush();}
-            DatagramSocket ds = new DatagramSocket();
-            DatagramPacket dp = new DatagramPacket(sendBuffer, packet0.getLength() + 12, InetAddress.getByName(emulatoraddress), emulatorport);
-            ds.send(dp);
+            DatagramSocket socket0 = new DatagramSocket();
+            DatagramPacket packet1 = new DatagramPacket(sendBuffer, packet0.getLength() + 12, InetAddress.getByName(emulatoraddress), emulatorport);
+            socket0.send(packet1);
         } catch (Exception e) {
             System.out.println(e);
         }
