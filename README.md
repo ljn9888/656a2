@@ -16,17 +16,17 @@ This project contains both the sender, emulator and receiver files.
  ### Running the network_emulator
 ```
 python3 network_emulator.py <emulator receiving UDP port from sender> <receiver hostname> <receiver UDP port> <emulator receiving UDP port> <sender hostname> <sender UDP port> <max delay in ms> <packet discard probability> <verbose-mode>
-python3 network_emulator.py 9991 127.0.1.1 9994 9993 127.0.1.1 9992 0 0.2 1
+python3 network_emulator.py 9991 ubuntu2004-004 9994 9993 ubuntu2004-002 9992 0 0.2 1
 ```
 ### Running the receiver
 ```
 java receiver <emulator hostname> <emulator receiving UDP port> <receiver UDP port> <output file>
-java receiver 127.0.1.1 9993 9994 file2
+java receiver ubuntu2004-008 9993 9994 file2
 ```
 ### Running the sender
 ```
 java sender <emulator hostname> <emulator receiving UDP port from sender> <sender UDP port> <time inteval> <input file>
-java sender 127.0.1.1 9991 9992 100 file1
+java sender ubuntu2004-008 9991 9992 100 file1
 ```
 ## Editor used in java
 The project was coded in Intellij IDEA.
