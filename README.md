@@ -2,6 +2,7 @@
 ## name: Jianing Li
 #### WatIAM: j2534li
 #### Student number: 20899171
+This is a project based on University of Waterloo, Computer Network course.
 This project contains both the sender, emulator and receiver files.
 ```
     ─ sender.java
